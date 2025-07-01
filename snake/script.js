@@ -113,6 +113,9 @@ class SnakeGame {
         });
         this.touchRightBtn.addEventListener('click', () => this.handleTouch('right'));
         
+        // Gestione degli swipe sul canvas
+        this.setupSwipeControls();
+        
         // Toggle modalità muri
         this.wallModeToggle.addEventListener('change', () => this.updateWallMode());
         
@@ -122,6 +125,72 @@ class SnakeGame {
                 e.preventDefault();
             }
         });
+    }
+    
+    setupSwipeControls() {
+        // Variabili per monitorare lo swipe
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        
+        // Threshold minima per considerare un movimento come swipe
+        const minSwipeDistance = 30;
+        
+        // Gestione touchstart
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Previene lo scroll e altri comportamenti predefiniti
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: false });
+        
+        // Gestione touchend
+        this.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            
+            // Calcola la direzione dello swipe
+            this.handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, minSwipeDistance);
+        }, { passive: false });
+    }
+    
+    handleSwipe(startX, startY, endX, endY, minDistance) {
+        // Calcola le distanze
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+        
+        // Determina se lo swipe è abbastanza significativo
+        if (Math.abs(deltaX) < minDistance && Math.abs(deltaY) < minDistance) {
+            // Tap (non swipe) - può essere usato per avviare/mettere in pausa il gioco
+            if (!this.gameRunning) {
+                this.startGame();
+            } else {
+                this.togglePause();
+            }
+            return;
+        }
+        
+        // Determina se lo swipe è più orizzontale o verticale
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Swipe orizzontale
+            if (deltaX > 0) {
+                // Swipe verso destra
+                this.handleTouch('right');
+            } else {
+                // Swipe verso sinistra
+                this.handleTouch('left');
+            }
+        } else {
+            // Swipe verticale
+            if (deltaY > 0) {
+                // Swipe verso il basso
+                this.handleTouch('down');
+            } else {
+                // Swipe verso l'alto
+                this.handleTouch('up');
+            }
+        }
     }
     
     handleKeyPress(event) {

@@ -56,8 +56,24 @@ body {
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     background: #2c3e50;
-    margin-bottom: 20px;
+    margin-bottom: 0; /* Rimosso il margin-bottom per avvicinare i controlli touch */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    touch-action: none; /* Previene zoom e altri comportamenti touch predefiniti */
+    cursor: pointer; /* Indica che il canvas è interattivo */
+}
+
+/* Stile speciale per il canvas su dispositivi touch */
+@media (hover: none) {
+    #gameCanvas {
+        border-color: rgba(76, 175, 80, 0.4); /* Bordo verde per indicare l'interattività */
+        animation: pulseCanvas 2s infinite;
+    }
+    
+    @keyframes pulseCanvas {
+        0% { border-color: rgba(76, 175, 80, 0.4); }
+        50% { border-color: rgba(76, 175, 80, 0.8); }
+        100% { border-color: rgba(76, 175, 80, 0.4); }
+    }
 }
 
 .game-controls {
@@ -260,25 +276,36 @@ button:active {
 /* Stili per i controlli touch */
 .touch-controls {
     display: none; /* Nascosti di default */
-    margin-top: 20px;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
 }
 
 .touch-row {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.touch-row:last-child {
+    margin-bottom: 0;
 }
 
 .touch-controls button {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     font-size: 2rem;
     border-radius: 50%;
     background: linear-gradient(45deg, #4CAF50, #388E3C);
     border: 2px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     -webkit-tap-highlight-color: transparent; /* Rimuove il highlight su dispositivi mobile */
+    padding: 0; /* Rimuove il padding interno */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .touch-controls button:active {
@@ -286,16 +313,23 @@ button:active {
     background: linear-gradient(45deg, #388E3C, #2E7D32);
 }
 
-/* Mostra i controlli touch solo su schermi piccoli (potenzialmente touch) */
-@media (max-width: 768px) {
+/* Mostra i controlli touch su schermi piccoli e dispositivi touch */
+@media (max-width: 768px), (hover: none) {
     .touch-controls {
         display: block;
     }
-}
-
-/* Mostra sempre i controlli touch su dispositivi con touch */
-@media (hover: none) {
-    .touch-controls {
-        display: block;
+    
+    /* Riduciamo lo spazio tra i controlli e il resto degli elementi */
+    .game-controls {
+        margin-top: 15px;
+    }
+    
+    /* Riduciamo un po' le dimensioni su schermi molto piccoli */
+    @media (max-width: 480px) {
+        .touch-controls button {
+            width: 55px;
+            height: 55px;
+            font-size: 1.7rem;
+        }
     }
 }
