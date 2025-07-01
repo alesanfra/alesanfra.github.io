@@ -2,9 +2,27 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Snake Game</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Manifest Web App per aggiunta alla Home screen -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Meta tag per iOS: icona e nome app per schermata home -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Snake Game">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90' x='50%' text-anchor='middle'>🐍</text></svg>">
+    
+    <!-- Meta tag per impedire lo zoom su dispositivi mobile -->
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- Meta tag per prevenire il comportamento di tap to zoom su iOS -->
+    <style>
+        html {
+            touch-action: manipulation;
+        }
+    </style>
 </head>
 <body>
     <div class="game-container">

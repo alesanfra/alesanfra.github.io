@@ -626,7 +626,25 @@ class SnakeGame {
 // Inizializza il gioco quando la pagina è caricata
 document.addEventListener('DOMContentLoaded', () => {
     new SnakeGame();
+    
+    // Rileva se l'app è stata avviata dalla schermata Home
+    checkStandaloneMode();
 });
+
+// Funzione per rilevare se l'app è in modalità standalone (aggiunta alla schermata Home)
+function checkStandaloneMode() {
+    const isInStandaloneMode = window.navigator.standalone || 
+                               window.matchMedia('(display-mode: standalone)').matches;
+    
+    if (isInStandaloneMode) {
+        // L'app è stata avviata dalla schermata Home
+        // Possiamo personalizzare l'esperienza se necessario
+        document.body.classList.add('standalone-mode');
+        
+        // Se necessario, possiamo mostrare un messaggio di benvenuto o altre personalizzazioni
+        console.log('App avviata dalla schermata Home');
+    }
+}
 
 // Gestione del ridimensionamento della finestra
 window.addEventListener('resize', () => {
