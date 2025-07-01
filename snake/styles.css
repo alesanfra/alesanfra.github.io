@@ -256,3 +256,46 @@ button:active {
 .toggle-slider:hover {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
+
+/* Stili per i controlli touch */
+.touch-controls {
+    display: none; /* Nascosti di default */
+    margin-top: 20px;
+}
+
+.touch-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.touch-controls button {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #4CAF50, #388E3C);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    -webkit-tap-highlight-color: transparent; /* Rimuove il highlight su dispositivi mobile */
+}
+
+.touch-controls button:active {
+    transform: scale(0.9);
+    background: linear-gradient(45deg, #388E3C, #2E7D32);
+}
+
+/* Mostra i controlli touch solo su schermi piccoli (potenzialmente touch) */
+@media (max-width: 768px) {
+    .touch-controls {
+        display: block;
+    }
+}
+
+/* Mostra sempre i controlli touch su dispositivi con touch */
+@media (hover: none) {
+    .touch-controls {
+        display: block;
+    }
+}

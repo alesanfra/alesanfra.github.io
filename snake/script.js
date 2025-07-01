@@ -26,6 +26,12 @@ class SnakeGame {
         this.startBtn = document.getElementById('startBtn');
         this.pauseBtn = document.getElementById('pauseBtn');
         this.restartBtn = document.getElementById('restartBtn');
+
+        // Controlli touch
+        this.touchUpBtn = document.getElementById('touchUp');
+        this.touchLeftBtn = document.getElementById('touchLeft');
+        this.touchDownBtn = document.getElementById('touchDown');
+        this.touchRightBtn = document.getElementById('touchRight');
         
         // Toggle modalità muri
         this.wallModeToggle = document.getElementById('wallModeToggle');
@@ -81,6 +87,31 @@ class SnakeGame {
         this.startBtn.addEventListener('click', () => this.startGame());
         this.pauseBtn.addEventListener('click', () => this.togglePause());
         this.restartBtn.addEventListener('click', () => this.restart());
+        
+        // Controlli touch - aggiungo sia eventi touchstart che click per maggiore compatibilità
+        this.touchUpBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();  // Previene comportamenti indesiderati
+            this.handleTouch('up');
+        });
+        this.touchUpBtn.addEventListener('click', () => this.handleTouch('up'));
+        
+        this.touchLeftBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.handleTouch('left');
+        });
+        this.touchLeftBtn.addEventListener('click', () => this.handleTouch('left'));
+        
+        this.touchDownBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.handleTouch('down');
+        });
+        this.touchDownBtn.addEventListener('click', () => this.handleTouch('down'));
+        
+        this.touchRightBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.handleTouch('right');
+        });
+        this.touchRightBtn.addEventListener('click', () => this.handleTouch('right'));
         
         // Toggle modalità muri
         this.wallModeToggle.addEventListener('change', () => this.updateWallMode());
@@ -140,6 +171,40 @@ class SnakeGame {
             case 'r':
             case 'R':
                 this.restart();
+                break;
+        }
+    }
+    
+    handleTouch(direction) {
+        // Se il gioco non è in esecuzione, avvialo
+        if (!this.gameRunning) {
+            this.startGame();
+        }
+        // Se il gioco è in pausa, esci
+        if (this.gamePaused) {
+            return;
+        }
+        
+        switch(direction) {
+            case 'up':
+                if (this.direction.y === 0) {
+                    this.nextDirection = { x: 0, y: -1 };
+                }
+                break;
+            case 'down':
+                if (this.direction.y === 0) {
+                    this.nextDirection = { x: 0, y: 1 };
+                }
+                break;
+            case 'left':
+                if (this.direction.x === 0) {
+                    this.nextDirection = { x: -1, y: 0 };
+                }
+                break;
+            case 'right':
+                if (this.direction.x === 0) {
+                    this.nextDirection = { x: 1, y: 0 };
+                }
                 break;
         }
     }
